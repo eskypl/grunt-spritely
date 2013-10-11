@@ -46,10 +46,25 @@ cssFormats.add('.css', 'css');
 module.exports = function (grunt) {
   // Create a SpriteMaker function
   function SpriteMaker() {
-    var data = this.options({}),
-        destCSS = data.destCSS,
-        cssTemplate = data.cssTemplate,
-        that = this;
+    var data = this.options({
+        mapSrcToName: function(src) {
+          var fullname = path.basename(src);
+          var nameParts = fullname.split('.');
+
+          // If there is are more than 2 parts, pop the last one
+          if (nameParts.length >= 2) {
+              nameParts.pop();
+          }
+          return nameParts.join('.');
+        },
+        mapDestImageToUrl: function(destImg) {
+          return url.relative(data.destCSS, destImg);
+        },
+        cssVarMap: function noop () {},
+      }),
+      destCSS = data.destCSS,
+      cssTemplate = data.cssTemplate,
+      that = this;
 
     // Verify all properties are here 
     if (this.files.length === 0) {
@@ -106,33 +121,18 @@ module.exports = function (grunt) {
 
         // Generate a listing of CSS variables
         var coordinates = result.coordinates,
-            properties = result.properties,
-            spritePath = data.imgPath || url.relative(destCSS, destImg),
-            cssVarMap = data.cssVarMap || function noop () {};
+            properties = result.properties;
 
         // Clean up the file name of the file
         Object.getOwnPropertyNames(coordinates).sort().forEach(function (file) {
-          // Extract the image name (exlcuding extension)
-          var fullname = path.basename(file),
-              nameParts = fullname.split('.');
-
-          // If there is are more than 2 parts, pop the last one
-          if (nameParts.length >= 2) {
-            nameParts.pop();
-          }
-
-          // Extract out our name
-          var name = nameParts.join('.'),
-              coords = coordinates[file];
-
-          // Specify the image for the sprite
-          coords.name = name;
-          coords.image = spritePath;
+          var coords = coordinates[file];
+          coords.name = data.mapSrcToName(file);
+          coords.image = data.mapDestImageToUrl(destImg);
           coords.total_width = properties.width;
           coords.total_height = properties.height;
 
           // Map the coordinates through cssVarMap
-          coords = cssVarMap(coords) || coords;
+          coords = data.cssVarMap(coords) || coords;
 
           // Save the cleaned name and coordinates
           cleanCoords.push(coords);
