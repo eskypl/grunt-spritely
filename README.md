@@ -1,6 +1,10 @@
-# grunt-spritesmith [![Build status](https://travis-ci.org/Ensighten/grunt-spritesmith.png?branch=master)](https://travis-ci.org/Ensighten/grunt-spritesmith)
+# grunt-spritesmith [![Build status](https://travis-ci.org/chrisdanford/grunt-spritely.png?branch=master)](https://travis-ci.org/chrisdanford/grunt-spritely)
 
-Grunt task for converting a set of images into a spritesheet and corresponding CSS variables.
+A Grunt 0.4 or newer task for converting a set of images into a spritesheet and corresponding CSS variables.
+
+This package is forked from grunt-spritesmith and makes the following changes:
+- uses the Grunt 0.4 standard `this.options` and `this.files` instead of raw `this.data`.  This is adventageous for using this task together with [grunt-newer](https://github.com/tschaub/grunt-newer).
+- adds the option `mapSrcToName` and `mapDestImageToUrl`.  `mapDestImageToUrl` replaces the `imgPath` option.
 
 A folder of icons processed by `grunt-spritesmith`:
 
@@ -106,69 +110,120 @@ grunt.initConfig({
       // Sprite files to read in
       'src': ['public/images/sprites/*.png'],
 
-      // Location to output spritesheet
-      'destImg': 'public/images/sprite.png',
+      // Location of the image to output
+      'dest': 'public/images/sprite.png',
 
-      // Stylus with variables under sprite names
-      'destCSS': 'public/css/sprite_positions.styl',
+      'options': {
+        // Stylus with variables under sprite names
+        'destCSS': 'public/css/sprite_positions.styl',
 
-      // OPTIONAL: Manual override for imgPath specified in CSS
-      'imgPath': '../sprite.png',
+        // OPTIONAL: Transform the input image file name to the identifier used for the sprite.
+        'mapSrcToName': 2,
 
-      // OPTIONAL: Specify algorithm (top-down, left-right, diagonal [\ format],
-          // alt-diagonal [/ format], binary-tree [best packing])
-      // Visual representations can be found below
-      'algorithm': 'alt-diagonal',
+        // OPTIONAL: Transform the output image file into a URL
+        'mapDestImageToUrl': 2,
 
-      // OPTIONAL: Specify padding between images
-      'padding': 2,
+        // OPTIONAL: Specify algorithm (top-down, left-right, diagonal [\ format],
+            // alt-diagonal [/ format], binary-tree [best packing])
+        // Visual representations can be found below
+        'algorithm': 'alt-diagonal',
 
-      // OPTIONAL: Specify engine (auto, phantomjs, canvas, gm)
-      'engine': 'canvas',
+        // OPTIONAL: Specify padding between images
+        'padding': 2,
 
-      // OPTIONAL: Specify CSS format (inferred from destCSS' extension by default)
-          // (stylus, scss, sass, less, json, jsonArray, css)
-      'cssFormat': 'json',
+        // OPTIONAL: Specify engine (auto, phantomjs, canvas, gm)
+        'engine': 'canvas',
 
-      // OPTIONAL: Specify a Mustache template to use for destCSS; mutually exclusive to cssFormat
-      'cssTemplate': 'public/css/sprite_positions.styl.mustache',
+        // OPTIONAL: Specify CSS format (inferred from destCSS' extension by default)
+            // (stylus, scss, sass, less, json, jsonArray, css)
+        'cssFormat': 'json',
 
-      // OPTIONAL: Map variable of each sprite
-      'cssVarMap': function (sprite) {
-        // `sprite` has `name`, `image` (full path), `x`, `y`
-        //   `width`, `height`, `total_width`, `total_height`
-        // EXAMPLE: Prefix all sprite names with 'sprite-'
-        sprite.name = 'sprite-' + sprite.name;
-      },
+        // OPTIONAL: Specify a Mustache template to use for destCSS; mutually exclusive to cssFormat
+        'cssTemplate': 'public/css/sprite_positions.styl.mustache',
 
-      // OPTIONAL: Specify settings for engine
-      'engineOpts': {
-        'imagemagick': true
-      },
+        // OPTIONAL: Map variable of each sprite
+        'cssVarMap': function (sprite) {
+          // `sprite` has `name`, `image` (full path), `x`, `y`
+          //   `width`, `height`, `total_width`, `total_height`
+          // EXAMPLE: Prefix all sprite names with 'sprite-'
+          sprite.name = 'sprite-' + sprite.name;
+        },
 
-      // OPTIONAL: Specify img options
-      'imgOpts': {
-         // Format of the image (inferred from destImg' extension by default) (jpg, png)
-         'format': 'png',
+        // OPTIONAL: Specify settings for engine
+        'engineOpts': {
+          'imagemagick': true
+        },
 
-         // Quality of image (gm only)
-         'quality': 90
-      },
+        // OPTIONAL: Specify img options
+        'imgOpts': {
+           // Format of the image (inferred from destImg' extension by default) (jpg, png)
+           'format': 'png',
 
-      // OPTIONAL: Specify css options
-      'cssOpts': {
-        // Some templates allow for skipping of function declarations
-        'functions': false,
+           // Quality of image (gm only)
+           'quality': 90
+        },
 
-        // CSS template allows for overriding of CSS selectors
-        'cssClass': function (item) {
-          return '.sprite-' + item.name;
+        // OPTIONAL: Specify css options
+        'cssOpts': {
+          // Some templates allow for skipping of function declarations
+          'functions': false,
+
+          // CSS template allows for overriding of CSS selectors
+          'cssClass': function (item) {
+            return '.sprite-' + item.name;
+          }
         }
       }
     }
   }
 });
 ```
+
+### Specifying files
+Files may be specified using several different grunt-standard formats described here: http://gruntjs.com/configuring-tasks#files.  For example:
+## New configuration examples
+#### One sheet
+```
+sprite:{
+  all: {
+    options: {
+      destCSS: 'destination/of/sprites.css'
+    },
+    src: 'path/to/your/sprites/*.png',
+    dest: 'destination/of/spritesheet.png'
+  }
+}
+```
+
+#### Multiple sheets
+```
+sprite:{
+  all: {
+    options: {
+      destCSS: 'destination/of/sprites.css'
+    },
+    files: [
+      {
+        src: 'path/to/your/sprites/core/*@1x.png',
+        dest: 'destination/of/core@1x.png',
+      },
+      {
+        src: 'path/to/your/sprites/core/*@2.png',
+        dest: 'destination/of/core@2x.png',
+      },
+      {
+        src: 'path/to/your/sprites/detail-page/*@1x.png',
+        dest: 'destination/of/detail-page@1x.png',
+      },
+      {
+        src: 'path/to/your/sprites/detail-page/*@2x.png',
+        dest: 'destination/of/detail-page@2x.png',
+      }
+    ]
+  }
+}
+```
+
 
 ### Algorithms
 |     top-down (default)    |           left-right          |          diagonal         |            alt-diagonal           |           binary-tree           |
