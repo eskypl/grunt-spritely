@@ -1,12 +1,12 @@
-# grunt-spritesmith [![Build status](https://travis-ci.org/chrisdanford/grunt-spritely.png?branch=master)](https://travis-ci.org/chrisdanford/grunt-spritely)
+# grunt-spritely [![Build status](https://travis-ci.org/chrisdanford/grunt-spritely.png?branch=master)](https://travis-ci.org/chrisdanford/grunt-spritely)
 
 A Grunt 0.4 or newer task for converting a set of images into a spritesheet and corresponding CSS variables.
 
-This package is forked from grunt-spritesmith and makes the following changes:
+This package is forked from [grunt-spritesmith](https://github.com/Ensighten/grunt-spritesmith) and makes the following changes:
 - uses the Grunt 0.4 standard `this.options` and `this.files` instead of raw `this.data`.  This is adventageous for using this task together with [grunt-newer](https://github.com/tschaub/grunt-newer).
-- adds the option `mapSrcToName` and `mapDestImageToUrl`.  `mapDestImageToUrl` replaces the `imgPath` option.
+- adds the options `mapSrcToName` and `mapDestImageToUrl`.  `mapDestImageToUrl` replaces the `imgPath` option.
 
-A folder of icons processed by `grunt-spritesmith`:
+A folder of icons processed by `grunt-spritely`:
 
 [![Fork icon][fork-icon]][fork-icon] ![+][]
 [![GitHub icon][github-icon]][github-icon] ![+][]
@@ -46,10 +46,10 @@ $github_height = 32px;
 
 ### Cross-platform support
 
-`grunt-spritesmith` is supported and tested on Windows, Linux, and Mac OSX.
+`grunt-spritely` is supported and tested on Windows, Linux, and Mac OSX.
 
 ## Getting Started
-`grunt-spritesmith` can be installed via npm: `npm install grunt-spritesmith`
+`grunt-spritely` can be installed via npm: `npm install grunt-spritely`
 
 #### Before proceeding, verify you have [satisfied your preferred engine's requirements][requirements]. ####
 
@@ -61,7 +61,7 @@ Then, add and configure it to your grunt file (`grunt.js` or `Gruntfile.js` depe
 module.exports = function (grunt) {
   // Configure grunt
   grunt.initConfig({
-    sprite:{
+    spritely: {
       all: {
         src: 'path/to/your/sprites/*.png',
         destImg: 'destination/of/spritesheet.png',
@@ -70,8 +70,8 @@ module.exports = function (grunt) {
     }
   });
 
-  // Load in `grunt-spritesmith`
-  grunt.loadNpmTasks('grunt-spritesmith');
+  // Load in `grunt-spritely`
+  grunt.loadNpmTasks('grunt-spritely');
 ```
 
 Run the `grunt sprite` task:
@@ -99,50 +99,50 @@ Results are a spritesheet and CSS:
 ```
 
 ## Usage
-`grunt-spritesmith` is a [grunt multitask][multitask]. It is configured on a per-task basis using the following template:
+`grunt-spritely` is a [grunt multitask][multitask]. It is configured on a per-task basis using the following template:
 
 [multitask]: http://gruntjs.com/configuring-tasks
 
 ```js
 grunt.initConfig({
-  'sprite': {
-    'all': {
+  spritely: {
+    all: {
       // Sprite files to read in
-      'src': ['public/images/sprites/*.png'],
+      src: ['public/images/sprites/*.png'],
 
       // Location of the image to output
-      'dest': 'public/images/sprite.png',
+      dest: 'public/images/sprite.png',
 
-      'options': {
+      options: {
         // Stylus with variables under sprite names
-        'destCSS': 'public/css/sprite_positions.styl',
+        destCSS: 'public/css/sprite_positions.styl',
 
         // OPTIONAL: Transform the input image file name to the identifier used for the sprite.
-        'mapSrcToName': 2,
+        mapSrcToName: 2,
 
         // OPTIONAL: Transform the output image file into a URL
-        'mapDestImageToUrl': 2,
+        mapDestImageToUrl: 2,
 
         // OPTIONAL: Specify algorithm (top-down, left-right, diagonal [\ format],
             // alt-diagonal [/ format], binary-tree [best packing])
         // Visual representations can be found below
-        'algorithm': 'alt-diagonal',
+        algorithm: 'alt-diagonal',
 
         // OPTIONAL: Specify padding between images
-        'padding': 2,
+        padding: 2,
 
         // OPTIONAL: Specify engine (auto, phantomjs, canvas, gm)
-        'engine': 'canvas',
+        engine: 'canvas',
 
-        // OPTIONAL: Specify CSS format (inferred from destCSS' extension by default)
+        // OPTIONAL: Specify CSS format (inferred from destCSS extension by default)
             // (stylus, scss, sass, less, json, jsonArray, css)
-        'cssFormat': 'json',
+        cssFormat: 'json',
 
         // OPTIONAL: Specify a Mustache template to use for destCSS; mutually exclusive to cssFormat
-        'cssTemplate': 'public/css/sprite_positions.styl.mustache',
+        cssTemplate: 'public/css/sprite_positions.styl.mustache',
 
         // OPTIONAL: Map variable of each sprite
-        'cssVarMap': function (sprite) {
+        cssVarMap: function (sprite) {
           // `sprite` has `name`, `image` (full path), `x`, `y`
           //   `width`, `height`, `total_width`, `total_height`
           // EXAMPLE: Prefix all sprite names with 'sprite-'
@@ -150,26 +150,26 @@ grunt.initConfig({
         },
 
         // OPTIONAL: Specify settings for engine
-        'engineOpts': {
-          'imagemagick': true
+        engineOpts: {
+          imagemagick: true
         },
 
         // OPTIONAL: Specify img options
-        'imgOpts': {
-           // Format of the image (inferred from destImg' extension by default) (jpg, png)
-           'format': 'png',
+        imgOpts: {
+           // Format of the image (inferred from destImg's extension by default) (jpg, png)
+           format: 'png',
 
            // Quality of image (gm only)
-           'quality': 90
+           quality: 90
         },
 
         // OPTIONAL: Specify css options
-        'cssOpts': {
+        cssOpts: {
           // Some templates allow for skipping of function declarations
-          'functions': false,
+          functions: false,
 
           // CSS template allows for overriding of CSS selectors
-          'cssClass': function (item) {
+          cssClass: function (item) {
             return '.sprite-' + item.name;
           }
         }
@@ -184,7 +184,7 @@ Files may be specified using several different grunt-standard formats described 
 ## New configuration examples
 #### One sheet
 ```
-sprite:{
+spritely: {
   all: {
     options: {
       destCSS: 'destination/of/sprites.css'
@@ -197,7 +197,7 @@ sprite:{
 
 #### Multiple sheets
 ```
-sprite:{
+spritely: {
   all: {
     options: {
       destCSS: 'destination/of/sprites.css'

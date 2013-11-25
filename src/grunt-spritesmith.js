@@ -186,5 +186,5 @@ module.exports = function (grunt) {
   }
 
   // Export the SpriteMaker function
-  grunt.registerMultiTask('sprite', 'Spritesheet making utility', SpriteMaker);
+  grunt.registerMultiTask('spritely', 'Generate spritesheets', SpriteMaker);
 };
