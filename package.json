@@ -1,7 +1,7 @@
 {
   "name": "grunt-spritely",
   "description": "Grunt library for generating sprites sheets.  Forked from grunt-spritesmith and caters to Grunt 0.4.",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "homepage": "https://github.com/chrisdanford/grunt-spritely",
   "author": {
     "name": "Chris Danford",
@@ -63,7 +63,8 @@
     "spritesmith": "~0.13.0",
     "json2css": "~4.1.0",
     "underscore": "~1.4.2",
-    "url2": "*"
+    "url2": "*",
+    "async": "~0.2.9"
   },
   "_devDependencies": {
     "grunt": "~0.3.12",

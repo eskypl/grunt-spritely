@@ -1,6 +1,6 @@
 # grunt-spritely changelog
 
-## 0.4.1
+## 0.4.2
 - Change Grunt task name to `spritely` to not conflict with other tasks
 
 ## 0.4.0
