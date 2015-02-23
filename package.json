@@ -1,14 +1,23 @@
 {
   "name": "grunt-spritely",
   "description": "Grunt library for generating sprites sheets.  Forked from grunt-spritesmith and caters to Grunt 0.4.",
-  "version": "0.4.2",
-  "homepage": "https://github.com/chrisdanford/grunt-spritely",
+  "version": "0.5.0",
+  "homepage": "https://github.com/eskypl/grunt-spritely",
   "author": {
-    "name": "Chris Danford",
-    "email": "chrisdanford@gmail.com",
-    "url": "http://www.chrisdanford.com/"
+    "name": "FE Team eSKY",
+    "url": "http://it.esky.pl"
   },
   "contributors": [
+    {
+      "name": "Aleksander Szmigiel",
+      "email": "aleksander.szmigiel@esky.com",
+      "url": "http://some-say.com/"
+    },
+    {
+      "name": "Chris Danford",
+      "email": "chrisdanford@gmail.com",
+      "url": "http://www.chrisdanford.com/"
+    },
     {
       "name": "Todd Wolfson",
       "email": "todd@twolfson.com",
@@ -41,15 +50,15 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/chrisdanford/grunt-spritely.git"
+    "url": "git://github.com/eskypl/grunt-spritely.git"
   },
   "bugs": {
-    "url": "https://github.com/chrisdanford/grunt-spritely/issues"
+    "url": "https://github.com/eskypl/grunt-spritely/issues"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/chrisdanford/grunt-spritely/blob/master/LICENSE-MIT"
+      "url": "https://github.com/eskypl/grunt-spritely/blob/master/LICENSE-MIT"
     }
   ],
   "main": "tasks/grunt-spritesmith.js",
@@ -60,11 +69,13 @@
     "test": "cd src-test && grunt"
   },
   "dependencies": {
-    "spritesmith": "~0.13.0",
-    "json2css": "~4.1.0",
-    "underscore": "~1.4.2",
-    "url2": "*",
-    "async": "~0.2.9"
+    "chalk": "0.5.1",
+    "gmsmith": "~0.4.5",
+    "spritesmith": "~1.2.0",
+    "json2css": "~6.1.0",
+    "underscore": "~1.8.1",
+    "url2": "~1.0.3",
+    "async": "~0.9.0"
   },
   "_devDependencies": {
     "grunt": "~0.3.12",
@@ -80,6 +91,7 @@
     "grunt",
     "gruntplugin",
     "sprite",
+    "spritely",
     "spritesheet",
     "css",
     "spritesmith",
