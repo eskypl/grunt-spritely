@@ -1,4 +1,6 @@
 # grunt-spritely changelog
+## 0.5.0
+- Update dependencies and grunt-spritely (grunt-spritesmith)
 
 ## 0.4.2
 - Change Grunt task name to `spritely` to not conflict with other tasks

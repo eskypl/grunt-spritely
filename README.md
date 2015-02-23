@@ -2,7 +2,7 @@ This package is forked from [grunt-spritesmith](https://github.com/Ensighten/gru
 - uses the Grunt 0.4 standard `this.options` and `this.files` instead of raw `this.data`.  This is adventageous for using this task together with [grunt-newer](https://github.com/tschaub/grunt-newer).
 - adds the options `mapSrcToName` and `mapDestImageToUrl`.  `mapDestImageToUrl` replaces the `imgPath` option.
 
-# grunt-spritely [![Build status](https://travis-ci.org/chrisdanford/grunt-spritely.png?branch=master)](https://travis-ci.org/chrisdanford/grunt-spritely)
+# grunt-spritely
 
 A Grunt 0.4 or newer task for converting a set of images into a spritesheet and corresponding CSS variables.
 
